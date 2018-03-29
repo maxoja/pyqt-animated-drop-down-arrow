@@ -1,0 +1,1 @@
+# pyqt-animated-drop-down-arrow
