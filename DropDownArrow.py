@@ -6,7 +6,7 @@ from math import *
 import sys
 
 
-class Vertice:
+class Vertex:
     def __init__(self, x1, y1, x2, y2):
         self.sx = x1
         self.dx = x2-x1
@@ -36,9 +36,9 @@ class DropDownArrow(QWidget):
         self.onUp = onUp
 
         self.verts = [
-            Vertice(0.2, 0.1,   0.9, 0.3),
-            Vertice(0.2, 0.9,   0.1,   0.3),
-            Vertice(0.9, 0.5, 0.5,   0.8)
+            Vertex(0.2, 0.1,   0.9, 0.3),
+            Vertex(0.2, 0.9,   0.1,   0.3),
+            Vertex(0.9, 0.5, 0.5,   0.8)
         ]
 
         timer = QTimer(self)
