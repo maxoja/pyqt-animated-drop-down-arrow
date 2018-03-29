@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QWidget, QApplication, QPushButton
 from PyQt5.QtGui import QPen, QPainter, QPolygonF, QColor, QBrush
 from PyQt5.QtCore import QTimer, QPointF, Qt, QLineF
 import sys
+from math import *
 
 class Vertice:
     def __init__(self, x1, y1, x2, y2):
@@ -17,14 +18,16 @@ class Vertice:
 class DropDownArrow(QWidget):
     step = 0.01
 
-    def __init__(self, parent=None, size=50, speed=5, color=QColor(0,0,0), selected=False):
+    def __init__(self, parent=None, size=50, speed=5, color=QColor(0,0,0), selected=False, updateEquation="self.step*self.speed*(self.end-self.begin)", kernel="self.x"):
         QWidget.__init__(self, parent)
 
         self.setFixedSize(size, size)
         self.speed = speed
         self.color = color
+        self.updateEquation = updateEquation
+        self.kernel = kernel
         self.selected = selected
-        self.ratio = 1 if selected else 0
+        self.x = 1 if selected else 0
 
         self.verts = [
             Vertice(0.2, 0.1,   0.9, 0.3),
@@ -60,7 +63,7 @@ class DropDownArrow(QWidget):
         painter.setPen(pen)
         painter.setBrush(brush)
 
-        points = [ QPointF(*v.lerp(self.ratio, self.width())) for v in self.verts ]
+        points = [ QPointF(*v.lerp(eval(self.kernel), self.width())) for v in self.verts ]
         painter.drawLine(QLineF(points[0],points[1]))
         painter.drawLine(QLineF(points[1],points[2]))
         painter.drawLine(QLineF(points[2],points[0]))
@@ -69,15 +72,20 @@ class DropDownArrow(QWidget):
         painter.drawPolygon(poly)
 
     def onTick(self):
-        step = self.step
-        speed = self.speed
 
         if self.selected :
-            self.ratio += step*speed
-            self.ratio = 1 if self.ratio > 1 else self.ratio
+            self.begin = 0
+            self.end = 1
+            self.dir = 1
+            self.x += eval(self.updateEquation)
+            self.x = 1 if self.x > 1 else self.x
         else :
-            self.ratio -= step*speed
-            self.ratio = 0 if self.ratio < 0 else self.ratio
+            # pass
+            self.begin = 1
+            self.end = 0
+            self.dir = -1
+            self.x += eval(self.updateEquation)
+            self.x = 0 if self.x < 0 else self.x
 
         self.update()
 
@@ -86,7 +94,8 @@ class DropDownArrow(QWidget):
 if __name__ == '__main__' :
     app = QApplication(sys.argv)
 
-    w = DropDownArrow()
+    updateEq = 'self.dir * abs(self.x+0.01)**0.75*self.step*self.speed'
+    w = DropDownArrow(updateEquation=updateEq, speed = 10)
     b = QPushButton(w)
     b.clicked.connect(lambda: w.setSelected(not w.isSelected()))
     b.move(35, 35)
