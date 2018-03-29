@@ -1,8 +1,10 @@
-from PyQt5.QtWidgets import QWidget, QApplication, QPushButton
+from PyQt5.QtWidgets import QWidget, QApplication, QPushButton, QVBoxLayout, QHBoxLayout
 from PyQt5.QtGui import QPen, QPainter, QPolygonF, QColor, QBrush
 from PyQt5.QtCore import QTimer, QPointF, Qt, QLineF
-import sys
+from time import sleep
 from math import *
+
+import sys
 
 class Vertice:
     def __init__(self, x1, y1, x2, y2):
@@ -14,11 +16,10 @@ class Vertice:
     def lerp(self, r, scale=1):
         return scale*(self.sx + self.dx*r), scale*(self.sy + self.dy*r)
 
-
 class DropDownArrow(QWidget):
     step = 0.01
 
-    def __init__(self, parent=None, size=50, speed=5, color=QColor(0,0,0), selected=False, updateEquation="self.step*self.speed*(self.end-self.begin)", kernel="self.x"):
+    def __init__(self, parent=None, size=8, speed=5, color=QColor(0,0,0), selected=False, updateEquation="self.step*self.speed*(self.end-self.begin)", kernel="self.x", onDown=None, onUp=None):
         QWidget.__init__(self, parent)
 
         self.setFixedSize(size, size)
@@ -27,7 +28,10 @@ class DropDownArrow(QWidget):
         self.updateEquation = updateEquation
         self.kernel = kernel
         self.selected = selected
+        self.changing = False
         self.x = 1 if selected else 0
+        self.onDown = onDown
+        self.onUp = onUp
 
         self.verts = [
             Vertice(0.2, 0.1,   0.9, 0.3),
@@ -40,10 +44,16 @@ class DropDownArrow(QWidget):
         timer.start(20)
 
     def setSelected(self, selected):
+        if selected != self.selected:
+            self.changing = True
+
         self.selected = selected
 
     def isSelected(self):
         return self.selected
+
+    def toggle(self):
+        self.setSelected(not self.isSelected())
 
     def setColor(self, color):
         assert(isinstance(color, QColor))
@@ -73,32 +83,112 @@ class DropDownArrow(QWidget):
 
     def onTick(self):
 
-        if self.selected :
+        if self.selected:
             self.begin = 0
             self.end = 1
             self.dir = 1
-            self.x += eval(self.updateEquation)
-            self.x = 1 if self.x > 1 else self.x
-        else :
-            # pass
+        else:
             self.begin = 1
             self.end = 0
             self.dir = -1
-            self.x += eval(self.updateEquation)
-            self.x = 0 if self.x < 0 else self.x
+
+        self.x += eval(self.updateEquation)
+
+        if self.x <= 0 and not self.selected:
+            self.x = 0
+
+            if self.onUp:
+                if self.changing:
+                    self.changing = False
+                    self.onUp()
+            else:
+                self.changing=False
+
+        if self.x >= 1 and self.selected:
+            self.x = 1
+
+            if self.onDown:
+                if self.changing:
+                    self.changing = False
+                    self.onDown()
+            else:
+                self.changing = False
 
         self.update()
+
 
 
 
 if __name__ == '__main__' :
     app = QApplication(sys.argv)
 
-    updateEq = 'self.dir * abs(self.x+0.01)**0.75*self.step*self.speed'
-    w = DropDownArrow(updateEquation=updateEq, speed = 10)
-    b = QPushButton(w)
-    b.clicked.connect(lambda: w.setSelected(not w.isSelected()))
-    b.move(35, 35)
-    w.show()
+    #create drop-down arrows
+    s = 50
+    drops = [
+        [
+            DropDownArrow(
+                size=s,
+                color=QColor(100, 100, 100)
+            ),
+
+            DropDownArrow(
+                size=s,
+                color=QColor(150, 200, 180),
+                kernel='sin(self.x*3.14/2)**10',
+                speed=2
+            ),
+
+            DropDownArrow(
+                size=s,
+                updateEquation='self.dir * abs(self.x+0.01)**0.75*self.step*self.speed',
+                speed=10
+            )
+        ],
+
+        [
+            DropDownArrow(
+                size=s,
+                color=QColor(130, 130, 130),
+                speed=4
+            ),
+
+            DropDownArrow(
+                size=s,
+                color=QColor(180, 230, 210),
+                kernel='sin(self.x*3.14/2)**10',
+                speed=1.3
+            ),
+
+            DropDownArrow(
+                size=s,
+                color=QColor(70,70,120),
+                updateEquation='self.dir * abs(self.x+0.01)**0.75*self.step*self.speed',
+                speed=8
+            )
+        ],
+    ]
+
+    b1 = QPushButton("click to toggle")
+    b1.clicked.connect(lambda: [[d.toggle() for d in dl] for dl in drops])
+    b2 = QPushButton("quit")
+    b2.clicked.connect(QApplication.exit)
+
+    #create layout and add widgets
+    layout = QVBoxLayout()
+    displaylayout = QHBoxLayout()
+    for dl in drops:
+        sublayout = QVBoxLayout()
+        for d in dl:
+            sublayout.addWidget(d)
+        displaylayout.addLayout(sublayout)
+    layout.addLayout(displaylayout)
+    layout.addWidget(b1)
+    layout.addWidget(b2)
+
+    #build window and attach layout, then show it
+    window = QWidget()
+    window.setLayout(layout)
+    window.setWindowFlags(Qt.FramelessWindowHint)
+    window.show()
 
     sys.exit(app.exec_())
