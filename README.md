@@ -1,17 +1,16 @@
-## Animated DropDown Arrow CustomWidget for PyQt5
+# Animated DropDown Arrow CustomWidget for PyQt5
 a graphical widget with animated transition on a state-change. this widget is render-only, cannot be interacted
 
-### Preview GIF
 ![Alt Text](https://github.com/maxoja/pyqt-animated-drop-down-arrow/blob/master/md-resource/example.gif)
 
-### Methods Extended From QWidget
+## Methods Extended From QWidget
 | Method                       | Return | Details   |
 |------------------------------|--------|-----------|
 **setSelected(bool selected)** | -      | set widget selection state
 **isSelected()**               | bool   | get widget selection state
 **toggle()**                   | -      | toggle between the two selection states
 
-### Attributes Extended From QWidget
+## Attributes Extended From QWidget
 | Attribute       | Type    | Details |
 ------------------|---------|---------|
 **parent**        |QtWidget |parent widget
