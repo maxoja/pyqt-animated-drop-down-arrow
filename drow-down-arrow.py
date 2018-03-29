@@ -3,8 +3,8 @@ from PyQt5.QtGui import QPen, QPainter, QPolygonF, QColor, QBrush
 from PyQt5.QtCore import QTimer, QPointF, Qt, QLineF
 from time import sleep
 from math import *
-
 import sys
+
 
 class Vertice:
     def __init__(self, x1, y1, x2, y2):
@@ -16,10 +16,11 @@ class Vertice:
     def lerp(self, r, scale=1):
         return scale*(self.sx + self.dx*r), scale*(self.sy + self.dy*r)
 
+
 class DropDownArrow(QWidget):
     step = 0.01
 
-    def __init__(self, parent=None, size=8, speed=5, color=QColor(0,0,0), selected=False, updateEquation="self.step*self.speed*(self.end-self.begin)", kernel="self.x", onDown=None, onUp=None):
+    def __init__(self, parent=None, size=8, speed=5, color=QColor(0, 0, 0), selected=False, updateEquation="self.step*self.speed*(self.end-self.begin)", kernel="self.x", onDown=None, onUp=None):
         QWidget.__init__(self, parent)
 
         self.setFixedSize(size, size)
@@ -29,6 +30,7 @@ class DropDownArrow(QWidget):
         self.kernel = kernel
         self.selected = selected
         self.changing = False
+        self.hiding = False
         self.x = 1 if selected else 0
         self.onDown = onDown
         self.onUp = onUp
@@ -49,6 +51,9 @@ class DropDownArrow(QWidget):
 
         self.selected = selected
 
+    def setHideVisual(self, hiding):
+        self.hiding = hiding
+
     def isSelected(self):
         return self.selected
 
@@ -60,14 +65,16 @@ class DropDownArrow(QWidget):
         self.color = color
 
     def paintEvent(self, event):
+        color = self.color if not self.hiding else QColor(0,0,0,0)
+
         pen = QPen()
         pen.setWidth(self.width()/8)
         pen.setCapStyle(Qt.RoundCap)
-        pen.setColor(self.color)
+        pen.setColor(color)
 
         brush = QBrush()
-        brush.setColor(self.color)
         brush.setStyle(Qt.SolidPattern)
+        brush.setColor(color)
 
         painter = QPainter(self)
         painter.setPen(pen)
@@ -115,8 +122,6 @@ class DropDownArrow(QWidget):
                 self.changing = False
 
         self.update()
-
-
 
 
 if __name__ == '__main__' :
