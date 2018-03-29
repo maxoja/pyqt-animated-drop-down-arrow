@@ -1,7 +1,9 @@
 # Animated DropDown Arrow CustomWidget for PyQt5
-a graphical widget with animated transition on a state-change. this widget is render-only, cannot be interacted
+a graphical widget with animated transition on a state-change. this widget is render-only. it cannot be interacted by a user.
 
 ![Alt Text](https://github.com/maxoja/pyqt-animated-drop-down-arrow/blob/master/md-resource/example.gif)
+
+<br/>
 
 ## Methods Extended From QWidget
 | Method                       | Return | Details   |
@@ -9,6 +11,8 @@ a graphical widget with animated transition on a state-change. this widget is re
 **setSelected(bool selected)** | -      | set widget selection state
 **isSelected()**               | bool   | get widget selection state
 **toggle()**                   | -      | toggle between the two selection states
+
+<br/>
 
 ## Attributes Extended From QWidget
 | Attribute       | Type    | Details |
@@ -24,6 +28,8 @@ a graphical widget with animated transition on a state-change. this widget is re
 **onUp**          |func     |a callback, will be triggered when finished head-right animation
 
 note that all params are non-positional and have default values set
+
+<br/>
 
 ### what I did learn and thanks
 Thanks to this [thread](https://stackoverflow.com/questions/34341808/is-there-a-way-to-add-a-gif-to-a-markdown-file) 
