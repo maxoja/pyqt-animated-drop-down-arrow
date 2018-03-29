@@ -46,16 +46,22 @@ class DropDownArrow(QWidget):
         timer.start(20)
 
     def setSelected(self, selected):
+        assert(type(selected) == bool)
+
         if selected != self.selected:
             self.changing = True
 
         self.selected = selected
 
     def setHideVisual(self, hiding):
+        assert(type(hiding) == bool)
         self.hiding = hiding
 
     def isSelected(self):
         return self.selected
+
+    def isHidingVisual(self):
+        return self.hiding
 
     def toggle(self):
         self.setSelected(not self.isSelected())
@@ -63,6 +69,9 @@ class DropDownArrow(QWidget):
     def setColor(self, color):
         assert(isinstance(color, QColor))
         self.color = color
+
+    def getColor(self):
+        return self.color
 
     def paintEvent(self, event):
         color = self.color if not self.hiding else QColor(0,0,0,0)
