@@ -11,9 +11,6 @@ a graphical widget with animated transition on a state-change. this widget is re
 **isSelected()**               | bool   | get widget selection state
 **toggle()**                   | -      | toggle between the two selection states
 
-
-![Alt Text](https://github.com/maxoja/pyqt-animated-drop-down-arrow/blob/master/md-resource/example.gif)
-
 ### Attributes Extended From QWidget
 | Attribute       | Type    | Details |
 ------------------|---------|---------|
