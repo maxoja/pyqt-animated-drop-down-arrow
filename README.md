@@ -8,26 +8,30 @@ a graphical widget with animated transition on a state-change. this widget is re
 ## Methods Extended From QWidget
 | Method                       | Return | Details   |
 |------------------------------|--------|-----------|
-**setSelected(bool selected)** | -      | set widget selection state
-**isSelected()**               | bool   | get widget selection state
 **toggle()**                   | -      | toggle between the two selection states
+**setSelected(bool selected)** | -      | set widget selection state
+**setHideVisual(bool hide)**   | -      | won't be drawn if true (widget area still does exist)
+**isSelected()**               | bool   | get widget selection state
+**isHidingVisual()**           | bool   | get widget is not drawing or opposite
+**setColor()**                 | -      | set drawing color
+**getColor()**                 | QColor | get drawing color
 
 <br/>
 
-## Attributes Extended From QWidget
+## Constructor Parameters
 | Attribute       | Type    | Details |
 ------------------|---------|---------|
 **parent**        |QtWidget |parent widget
 **size**          |float    |size of this widget ( will be fixed )
 **speed**         |float    |speed of animation
 **color**         |QtColor  |color of the shape drawn
-**selected**      |boolean  |start state 
-**updateEquation**|str|an equation used by eval() to push animation playhead forth
+**selected**      |boolean  |start state
+**updateEquation**|str      |an equation used by eval() to push animation play-head forth
 **kernel**        |str      |an equation used by eval() to transform movement curve
 **onDown**        |func     |a callback, will be triggered when finished head-down animation
 **onUp**          |func     |a callback, will be triggered when finished head-right animation
 
-note that all params are non-positional and have default values set
+please note that all params are optional, non-positional and have default values set
 
 <br/>
 
@@ -36,4 +40,4 @@ Thanks to this [thread](https://stackoverflow.com/questions/34341808/is-there-a-
 for letting me know how to put gif in this markdown, and 
 [ezgif](https://ezgif.com/video-to-gif) as well for providing a pretty useful converter.
 
-###### README.md last update : 29 March 2018
+###### README.md last update : 29 March 2018 11:50pm
