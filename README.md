@@ -1,10 +1,9 @@
 # Animated DropDown Arrow CustomWidget for PyQt5
 ![Alt Text](https://github.com/maxoja/pyqt-animated-drop-down-arrow/blob/master/md-resource/example.gif)
 
-**current accepted paremeters**
-[ note : all are non-positional and default set ]
+### Available Parameters and Attributes
 
-| Parameter | Type    | Details |
+| Name      | Type    | Details |
 ------------|---------|---------|
 parent      |QtWidget |parent widget
 size        |float    |size of this widget ( will be fixed )
@@ -16,11 +15,13 @@ kernel      |str      |an equation used by eval() to transform movement curve
 onDown      |func     |a callback, will be triggered when finished head-down animation
 onUp        |func     |a callback, will be triggered when finished head-right animation
 
+note that all params are non-positional and have default values set
+
 
 ## what i did learn and thanks
-thanks to this thread for letting me know how to put gif in this markdown
-https://stackoverflow.com/questions/34341808/is-there-a-way-to-add-a-gif-to-a-markdown-file
-and the online converter site as well
-https://ezgif.com/video-to-gif
+Thanks to this 
+[thread](https://stackoverflow.com/questions/34341808/is-there-a-way-to-add-a-gif-to-a-markdown-file)
+for letting me know how to put gif in this markdown, 
+and [ezgif](https://ezgif.com/video-to-gif) as well for providing a pretty useful converter.
 
 README.md last update : 29 March 2018
