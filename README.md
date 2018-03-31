@@ -1,5 +1,5 @@
 # Animated DropDown Arrow CustomWidget for PyQt5
-a graphical widget with animated transition on a state-change. this widget is render-only. it cannot be interacted by a user.
+a small graphical widget rendered by QPainter with animated transition on a state-change. its transformation can be customised using math equation(s). this widget is render-only. in other words, it cannot be interacted directly with a user. take a look at the example gif below to see how it resemble.
 
 ![Alt Text](https://github.com/maxoja/pyqt-animated-drop-down-arrow/blob/master/md-resource/example.gif)
 
@@ -40,4 +40,4 @@ Thanks to this [thread](https://stackoverflow.com/questions/34341808/is-there-a-
 for letting me know how to put gif in this markdown, and 
 [ezgif](https://ezgif.com/video-to-gif) as well for providing a pretty useful converter.
 
-###### README.md last update : 29 March 2018 11:50pm
+###### README.md last update : 31 March 2018 09:24am
